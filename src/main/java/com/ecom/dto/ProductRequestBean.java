@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -17,8 +16,7 @@ public class ProductRequestBean {
 
 	private Long id;
 
-//	@NotNull(message = "Sku must not be null")
-	@Pattern(regexp = "^(.+)@(.+)$", message = "Field should follow following pattern")
+	@NotNull(message = "Sku must not be null")
 	private String sku;
 
 	@NotNull(message = "Name must not be null")
