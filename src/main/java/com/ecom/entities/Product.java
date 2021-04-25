@@ -28,25 +28,25 @@ public class Product {
 	@JoinColumn(name = "category_id", nullable = false)
 	private ProductCategory category;
 
-	@Column(name = "sku")
+	@Column(name = "sku", nullable = false, length = 100)
 	private String sku;
 
-	@Column(name = "name")
+	@Column(name = "name", nullable = false, length = 100)
 	private String name;
 
-	@Column(name = "description")
+	@Column(name = "description", nullable = false, length = 100)
 	private String description;
 
-	@Column(name = "unit_price")
+	@Column(name = "unit_price", nullable = false, length = 21)
 	private BigDecimal unitPrice;
 
-	@Column(name = "image_url")
+	@Column(name = "image_url", nullable = false, length = 200)
 	private String imageUrl;
 
 	@Column(name = "active")
 	private boolean active;
 
-	@Column(name = "units_in_stock")
+	@Column(name = "units_in_stock", nullable = false, length = 11)
 	private int unitsInStock;
 
 	@Column(name = "date_created")

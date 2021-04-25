@@ -11,52 +11,22 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductResponseBean {
 
-	private String status;
-
-	@JsonProperty("total_record")
-	private Integer totalRecord;
-
-	@JsonProperty("page_count")
-	private Integer pageCount;
-
-	@JsonProperty("page_per_record")
-	private Integer pagePerRecord;
+	private Boolean status;
 
 	@JsonProperty("data")
 	private ProductRequestBean productRequestBean;
 
+	@JsonProperty("page")
+	private Page page;
+
 	private List<ProductRequestBean> productList;
 
-	public String getStatus() {
+	public Boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Boolean status) {
 		this.status = status;
-	}
-
-	public Integer getTotalRecord() {
-		return totalRecord;
-	}
-
-	public void setTotalRecord(Integer totalRecord) {
-		this.totalRecord = totalRecord;
-	}
-
-	public int getPageCount() {
-		return pageCount;
-	}
-
-	public void setPageCount(int pageCount) {
-		this.pageCount = pageCount;
-	}
-
-	public int getPagePerRecord() {
-		return pagePerRecord;
-	}
-
-	public void setPagePerRecord(int pagePerRecord) {
-		this.pagePerRecord = pagePerRecord;
 	}
 
 	public ProductRequestBean getProductRequestBean() {
@@ -73,6 +43,14 @@ public class ProductResponseBean {
 
 	public void setProductList(List<ProductRequestBean> productList) {
 		this.productList = productList;
+	}
+
+	public Page getPage() {
+		return page;
+	}
+
+	public void setPage(Page page) {
+		this.page = page;
 	}
 
 }

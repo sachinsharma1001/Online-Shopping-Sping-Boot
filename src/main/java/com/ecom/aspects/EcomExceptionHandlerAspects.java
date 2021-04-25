@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.ecom.exception.BadRequestException;
+import com.ecom.exception.ErrorValidation;
+import com.ecom.exception.ProductNotFoundException;
+
 @ControllerAdvice
 public class EcomExceptionHandlerAspects extends ResponseEntityExceptionHandler {
 
@@ -36,6 +40,14 @@ public class EcomExceptionHandlerAspects extends ResponseEntityExceptionHandler 
 	public ResponseEntity<Object> handleBadRequestExceptions(BadRequestException ex, WebRequest request) {
 		ErrorValidation errorValidation = new ErrorValidation(ex.getFieldName(), ex.getDescription());
 		return new ResponseEntity<>(errorValidation, HttpStatus.BAD_REQUEST);
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@ExceptionHandler(ProductNotFoundException.class)
+	public ResponseEntity<Object> handleProductNotFoundException(final ProductNotFoundException ex,
+			WebRequest request) {
+		ErrorValidation errorValidation = new ErrorValidation(ex.getFieldName(), ex.getDescription());
+		return new ResponseEntity<>(errorValidation, HttpStatus.OK);
 	}
 
 }

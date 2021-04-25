@@ -1,28 +1,21 @@
 package com.ecom.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.validation.Valid;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ecom.aspects.BadRequestException;
 import com.ecom.dto.ProductRequestBean;
 import com.ecom.dto.ProductResponseBean;
+import com.ecom.exception.BadRequestException;
 import com.ecom.services.ProductServices;
 
 @RestController
@@ -33,12 +26,15 @@ public class ProductController {
 	private ProductServices provideService;
 
 	@GetMapping
-	public ProductResponseBean getAllProducts() {
-		return provideService.getAllProducts();
+	public ProductResponseBean getAllProducts(@RequestParam(defaultValue = "0") Integer pageNo,
+			@RequestParam(defaultValue = "10") Integer pageSize, 
+			@RequestParam(defaultValue = "id") String sortBy) {
+
+		return provideService.getAllProducts(pageNo, pageSize, sortBy);
 	}
 
 	@GetMapping("/{productId}")
-	public ProductResponseBean getProductById(@PathVariable("productId") Long productId) throws BadRequestException {
+	public ProductResponseBean getProductById(@PathVariable("productId") Long productId) throws Exception {
 		return provideService.getProductById(productId);
 	}
 

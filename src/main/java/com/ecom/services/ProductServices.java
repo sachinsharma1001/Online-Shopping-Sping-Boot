@@ -6,13 +6,18 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.ecom.aspects.BadRequestException;
 import com.ecom.dao.ProductRepository;
 import com.ecom.dto.ProductRequestBean;
 import com.ecom.dto.ProductResponseBean;
 import com.ecom.entities.Product;
+import com.ecom.exception.BadRequestException;
+import com.ecom.exception.ProductNotFoundException;
 
 @Service
 public class ProductServices {
@@ -20,21 +25,32 @@ public class ProductServices {
 	@Autowired
 	private ProductRepository productRepository;
 
-	public ProductResponseBean getAllProducts() {
+	public ProductResponseBean getAllProducts(Integer pageNo, Integer pageSize, String sortBy) {
 		ProductResponseBean productResponseBean = new ProductResponseBean();
 		List<ProductRequestBean> productRequestBeans = new ArrayList<>();
 
-		List<Product> products = productRepository.findAll();
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		Page<Product> pagedResult = productRepository.findAll(paging);
+
+		List<Product> products = pagedResult.toList();
 		products.forEach(p -> {
 			ProductRequestBean bean = setProductResponse(p);
 			productRequestBeans.add(bean);
 		});
 
+		com.ecom.dto.Page page = new com.ecom.dto.Page();
+		page.setPage(paging.getPageNumber());
+		page.setPagePerRecord(paging.getPageSize());
+		page.setPageCount(pagedResult.getTotalPages());
+		page.setTotalRecord(pagedResult.getTotalPages() * paging.getPageSize());
+
+		productResponseBean.setStatus(true);
+		productResponseBean.setPage(page);
 		productResponseBean.setProductList(productRequestBeans);
 		return productResponseBean;
 	}
 
-	public ProductResponseBean getProductById(Long productId) throws BadRequestException {
+	public ProductResponseBean getProductById(Long productId) throws Exception {
 		if (productId == 0) {
 			throw new BadRequestException("id", "Id can not be 0");
 		}
@@ -43,7 +59,10 @@ public class ProductServices {
 
 		Optional<Product> product = productRepository.findById(productId);
 		if (product.isPresent()) {
+			productResponseBean.setStatus(true);
 			productResponseBean.setProductRequestBean(setProductResponse(product.get()));
+		} else {
+			throw new ProductNotFoundException(200, "id", "Product for this id not found", new Date(), "");
 		}
 
 		return productResponseBean;

@@ -1,4 +1,4 @@
-package com.ecom.aspects;
+package com.ecom.exception;
 
 public class AuthorizationException {
 

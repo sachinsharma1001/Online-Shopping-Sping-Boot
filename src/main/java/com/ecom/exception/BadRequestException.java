@@ -1,4 +1,4 @@
-package com.ecom.aspects;
+package com.ecom.exception;
 
 import java.util.Date;
 
@@ -15,14 +15,16 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BadRequestException extends Exception {
 
+	private static final long serialVersionUID = 6979071006628872160L;
+
 	@JsonProperty("status_code")
 	private int statusCode;
-	
+
 	@JsonProperty("field_name")
 	private String fieldName;
-	
+
 	private String description;
-	
+
 	@JsonProperty("timestamp")
 	private Date timeStamp;
 	private String uri;
