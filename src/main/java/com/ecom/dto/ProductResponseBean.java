@@ -13,12 +13,13 @@ public class ProductResponseBean {
 
 	private Boolean status;
 
-	@JsonProperty("data")
+//	@JsonProperty("data")
 	private ProductRequestBean productRequestBean;
 
 	@JsonProperty("page")
 	private Page page;
 
+	@JsonProperty("data")
 	private List<ProductRequestBean> productList;
 
 	public Boolean getStatus() {

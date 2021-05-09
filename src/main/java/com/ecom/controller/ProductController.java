@@ -2,6 +2,8 @@ package com.ecom.controller;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,8 @@ import com.ecom.services.ProductServices;
 @RestController
 @RequestMapping(value = "/products")
 public class ProductController {
+	
+	private Logger logger = LoggerFactory.getLogger(ProductController.class);
 
 	@Autowired
 	private ProductServices provideService;
@@ -30,6 +34,8 @@ public class ProductController {
 			@RequestParam(defaultValue = "10") Integer pageSize, 
 			@RequestParam(defaultValue = "id") String sortBy) {
 
+		logger.debug("Hello debug message");
+		logger.info("Hello info message");
 		return provideService.getAllProducts(pageNo, pageSize, sortBy);
 	}
 
